@@ -3,13 +3,15 @@
 Gamebuino gb = Gamebuino();
 
 boolean debug = false;
+extern const byte font3x5[];
 
 void setup () {
   gb.begin();
   gb.pickRandomSeed();
-  gb.setFrameRate(41);
+  gb.setFrameRate(21);
   gb.battery.show = true; 
   gb.titleScreen(F("Bomberman by Limited"));
+  gb.display.setFont(font3x5);
 }
 
 void loop() {
@@ -18,15 +20,22 @@ void loop() {
     handleInput(); 
     debugRender();
     renderGame();
+    renderPlayer();
   }  
 }
-
+extern byte playerx;
+extern byte playery;
 void debugRender() {
     if (!debug) return;
-  
-    gb.display.print("\nDebug Bomberman\n");
+
     
-    gb.display.print("\nRAM:");
+    gb.display.print("\nDebug Bomberman\n");
+    gb.display.print("Player X:");
+    gb.display.print(playerx);
+    gb.display.print("\nPlayer Y:");
+    gb.display.print(playery);
+    
+    gb.display.print("\nRAM Free:");
     gb.display.print(gb.getFreeRam());
     
     gb.display.print("\nCPU: ");
@@ -40,4 +49,16 @@ void renderGame() {
 void handleInput() {
   if (gb.buttons.pressed(BTN_C))
     debug = !debug;
+    
+  if (gb.buttons.repeat(BTN_LEFT, 1))    
+    playerLeft();
+    
+  else if (gb.buttons.repeat(BTN_RIGHT, 1))    
+    playerRight();
+    
+  else if (gb.buttons.repeat(BTN_UP, 1))   
+    playerUp();
+      
+  else if (gb.buttons.repeat(BTN_DOWN, 1))    
+    playerDown();
 }

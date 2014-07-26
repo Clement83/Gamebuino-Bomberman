@@ -18,6 +18,8 @@ byte maze[maze_w][maze_w] = {
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 };
 
+
+
 void renderEdges () {
   gb.display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
   gb.display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
@@ -33,4 +35,21 @@ void renderMap() {
       }
     }
   }
+}
+
+extern byte playerx;
+extern byte playery;
+extern byte playerw;
+extern byte playerh;
+
+bool checkWallCollision() {
+  for (byte row = 0; row < maze_h; row++) {
+    for (byte col = 0; col < maze_w; col++) {
+      if (maze[row][col] == 0 ) continue;
+      if (gb.collideRectRect(playerx, playery, playerw, playerh, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
+         return true;
+      }
+    }
+  }
+  return false;
 }
