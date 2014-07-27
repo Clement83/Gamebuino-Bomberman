@@ -1,4 +1,4 @@
-# Bomber for Gamebunio
+# Bomber for Gamebuino
 
 A simple clone of the famous Bomberman for Gamebuino.
 
