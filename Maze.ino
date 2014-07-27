@@ -18,8 +18,6 @@ byte maze[maze_w][maze_w] = {
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 };
 
-
-
 void renderEdges () {
   gb.display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
   gb.display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
@@ -60,4 +58,70 @@ bool checkWallCollision() {
     }
   }
   return false;
+}
+
+void bombExplode(byte x, byte y) {
+   byte tileX = toTileX(x);
+   byte tileY = toTileY(y);
+   
+   Serial.print("Bomb X:");
+   Serial.print(tileX);
+   Serial.print(" Y:" );
+   Serial.println(tileY);
+   
+   gb.sound.playOK();
+   
+   // Check Right
+   if (isBreakable(tileY, tileX+1)) {
+     Serial.println("Breakable Right");
+      maze[tileY][tileX+1] = 0;     
+      gb.sound.playTick();
+   }   
+   
+   // Check left
+   if (isBreakable(tileY, tileX-1)) {
+     Serial.println("Breakable Left");
+      maze[tileY][tileX-1] = 0;     
+      gb.sound.playTick();
+   }   
+   
+   // Check Up
+   if (isBreakable(tileY-1, tileX)) {
+     Serial.println("Breakable Up");
+      maze[tileY-1][tileX] = 0;     
+      gb.sound.playTick();
+   } 
+  
+   // Check Down
+   if (isBreakable(tileY+1, tileX)) {
+     Serial.println("Breakable Down");
+      maze[tileY+1][tileX] = 0;    
+     gb.sound.playTick() ;
+   }  
+}
+
+byte toTileX(byte xIn) {
+   return round(xIn / wall_size_x); 
+}
+
+byte toTileY(byte yIn) {
+   return round(yIn / wall_size_y); 
+}
+
+boolean isBreakable(byte y, byte x) {  
+  // TODO: check bounds
+  Serial.print("tile: ");
+  Serial.println(maze[y][x]);
+
+  switch(maze[y][x]) {
+     case 0:
+        return false;
+        break;
+    case 1:
+        return false;
+        break;
+    case 2: 
+        return true;
+        break;
+  }
 }
