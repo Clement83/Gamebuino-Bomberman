@@ -48,6 +48,8 @@ void debugRender() {
     
     gb.display.print("\nCPU: ");
     gb.display.print(gb.getCpuLoad());
+    
+    gb.display.print("\nVersion: alpha 1.0");
 }
 
 void renderGame() {
