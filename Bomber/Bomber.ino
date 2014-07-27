@@ -60,7 +60,12 @@ void loop() {
    if (gb.update()) {  
     
     handleInput(); 
-    debugRender();
+    
+    if (debug) {
+      debugRender();
+      return;
+    } 
+    
     updateBomb();
     
     renderGame();
@@ -74,8 +79,7 @@ extern byte playerw;
 extern byte playerh;
 void debugRender() {
     if (!debug) return;
-
-    
+   
     gb.display.print("\nDebug Bomberman\n");
     gb.display.print("Player X:");
     gb.display.print(playerx);
