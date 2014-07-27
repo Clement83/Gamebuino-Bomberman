@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <Gamebuino.h>
+#include <math.h>
 Gamebuino gb = Gamebuino();
 
 boolean debug = false;
@@ -21,6 +22,8 @@ void loop() {
     
     handleInput(); 
     debugRender();
+    updateBomb();
+    
     renderGame();
     renderPlayer();
     renderBomb();
