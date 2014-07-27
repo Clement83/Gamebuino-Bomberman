@@ -1,9 +1,8 @@
 
 boolean bombActive = false;
-byte bombx = -1;
-byte bomby = -1;
+byte bombx = 0;
+byte bomby = 0;
 unsigned long bombStart;
-int bombEnd;
 
 void setBomb(byte x, byte y) {
    bombx = (round(x/4) * 4);
@@ -16,8 +15,6 @@ void setBomb(byte x, byte y) {
    Serial.println(bomby);
    Serial.println(bombStart);   
 }
-
-void setBombInactive() { bombActive = false; }
 
 void renderBomb() {
   if (!bombActive) return;
@@ -37,10 +34,7 @@ void updateBomb() {
   if (!bombActive) return;
   
   if ((millis() - bombStart) >= 5000) {
-    bombActive = false; 
-    
-    Serial.print("Timer:");
-    Serial.println((millis() - bombStart));
+     bombActive = false; 
      Serial.println("Bomb explode");
      bombExplode(bombx, bomby);
   } 

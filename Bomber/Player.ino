@@ -8,11 +8,11 @@ byte playervy = 2;
 byte playervyStart = playervy;
 byte playerscore = 0;
 
-
 void renderPlayer() {
    gb.display.fillRect(playerx, playery, playerw, playerh); 
    gb.display.setColor(WHITE);
    gb.display.drawPixel(playerx+1, playery+1);
+   gb.display.drawPixel(playerx+2, playery+2);
    gb.display.setColor(BLACK);
 }
 
