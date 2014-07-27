@@ -55,10 +55,10 @@ void renderGame() {
      renderMap();
 }
 void handleInput() {
-  if (gb.buttons.pressed(BTN_C)) 
+  if (gb.buttons.pressed(BTN_B)) 
     debug = !debug;
     
-  if (debug && gb.buttons.pressed(BTN_B))
+  if (gb.buttons.pressed(BTN_C))
      gb.titleScreen(F("Bomberman by Limited2"));
      
   if (gb.buttons.repeat(BTN_LEFT, 1))    
@@ -75,9 +75,5 @@ void handleInput() {
     
   if(gb.buttons.pressed(BTN_A)) {
       setBomb(playerx+(playerw/2),playery+(playerh/2));
-  }
-  
-  if(gb.buttons.pressed(BTN_B)) {
-     setBombInactive(); 
   }
 }
