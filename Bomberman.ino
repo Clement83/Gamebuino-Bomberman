@@ -6,6 +6,8 @@ boolean debug = false;
 extern const byte font3x5[];
 
 void setup () {
+  Serial.begin(9600);
+  Serial.println("Loading...");
   gb.begin();
   gb.pickRandomSeed();
   gb.setFrameRate(21);
@@ -21,10 +23,13 @@ void loop() {
     debugRender();
     renderGame();
     renderPlayer();
+    renderBomb();
   }  
 }
 extern byte playerx;
 extern byte playery;
+extern byte playerw;
+extern byte playerh;
 void debugRender() {
     if (!debug) return;
 
@@ -47,9 +52,12 @@ void renderGame() {
      renderMap();
 }
 void handleInput() {
-  if (gb.buttons.pressed(BTN_C))
+  if (gb.buttons.pressed(BTN_C)) 
     debug = !debug;
     
+  if (debug && gb.buttons.pressed(BTN_B))
+     gb.titleScreen(F("Bomberman by Limited2"));
+     
   if (gb.buttons.repeat(BTN_LEFT, 1))    
     playerLeft();
     
@@ -61,4 +69,12 @@ void handleInput() {
       
   else if (gb.buttons.repeat(BTN_DOWN, 1))    
     playerDown();
+    
+  if(gb.buttons.pressed(BTN_A)) {
+      setBomb(playerx+(playerw/2),playery+(playerh/2));
+  }
+  
+  if(gb.buttons.pressed(BTN_B)) {
+     setBombInactive(); 
+  }
 }

@@ -1,5 +1,5 @@
-byte playerx = 8;
-byte playery = 8;
+byte playerx = 11;
+byte playery = 11;
 byte playerw = 4;
 byte playerh = 4;
 byte playervx = 2;
