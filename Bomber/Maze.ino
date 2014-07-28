@@ -44,10 +44,10 @@ extern byte playery;
 extern byte playerw;
 extern byte playerh;
 
-bool checkWallCollision() {
+boolean checkWallCollision(byte *xIn, byte *yIn) {
   // Get elements around player
-  int tileX = toTileX(playerx) - 2;
-  int tileY = toTileY(playery) - 2;
+  int tileX = toTileX(*xIn) - 2;
+  int tileY = toTileY(*yIn) - 2;
   int tileXMax = tileX + 4;
   int tileYMax = tileY + 4;
   
@@ -63,7 +63,7 @@ bool checkWallCollision() {
       if (col > maze_w || col < 0) continue;
       if (maze[row][col] == 0 ) continue; // If empty skip
  
-      if (gb.collideRectRect(playerx, playery, playerw, playerh, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
+      if (gb.collideRectRect(*xIn, *yIn, playerw, playerh, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
           Serial.print("Collision - Col:");
           Serial.print(col);
           Serial.print(" Row:");
@@ -79,12 +79,38 @@ void bombExplode(byte x, byte y) {
    byte tileX = toTileX(x);
    byte tileY = toTileY(y);
    
+   byte tilePlayerX = toTileX(playerx);
+   byte tilePlayerY = toTileY(playery);
+   
    Serial.print("Bomb X:");
    Serial.print(tileX);
    Serial.print(" Y:" );
    Serial.println(tileY);
    
    gb.sound.playOK();
+   
+   
+   // Check plyer dead
+   if ((tilePlayerX==tileX+1 && tilePlayerY==tileY)
+   || (tilePlayerX==tileX-1 && tilePlayerY==tileY)
+   || (tilePlayerX==tileX && tilePlayerY==tileY-1)
+   || (tilePlayerX==tileX && tilePlayerY==tileY+1)
+   || (tilePlayerX==tileX && tilePlayerY==tileY)) {
+       playerDead();
+       return;
+  }
+  
+   byte tileEnemyX = toTileX(enemyx);
+   byte tileEnemyY = toTileY(enemyy);
+  
+  if ((tileEnemyX==tileX+1 && tileEnemyY==tileY)
+   || (tileEnemyX==tileX-1 && tileEnemyY==tileY)
+   || (tileEnemyX==tileX && tileEnemyY==tileY-1)
+   || (tileEnemyX==tileX && tileEnemyY==tileY+1)
+   || (tileEnemyX==tileX && tileEnemyY==tileY)) {
+       enemyDead();
+       return;
+  }
    
    // Check Right
    if (isBreakable(tileY, tileX+1)) {
@@ -94,27 +120,37 @@ void bombExplode(byte x, byte y) {
    }   
    
    // Check left
-   if (isBreakable(tileY, tileX-1)) {
+   if (isBreakable(tileY, tileX-1) ) {
      Serial.println("Breakable Left");
       maze[tileY][tileX-1] = 0;     
       gb.sound.playTick();
    }   
    
    // Check Up
-   if (isBreakable(tileY-1, tileX)) {
+   if (isBreakable(tileY-1, tileX) ) {
      Serial.println("Breakable Up");
       maze[tileY-1][tileX] = 0;     
       gb.sound.playTick();
    } 
   
    // Check Down
-   if (isBreakable(tileY+1, tileX)) {
+   if (isBreakable(tileY+1, tileX) ) {
      Serial.println("Breakable Down");
       maze[tileY+1][tileX] = 0;    
      gb.sound.playTick() ;
    }  
 }
 
+
+void playerDead() {  
+  gb.sound.playCancel();
+  setup();
+}
+
+void enemyDead() {
+  gb.sound.playCancel();
+  enemySpawn();
+}
 byte toTileX(byte xIn) {
    return round(xIn / wall_size_x); 
 }

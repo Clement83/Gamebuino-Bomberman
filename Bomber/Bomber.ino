@@ -6,8 +6,6 @@ Gamebuino gb = Gamebuino();
 boolean debug = false;
 extern const byte font3x5[];
 
-
-
 const byte logo[] PROGMEM = {
   64,30,
  B00000000,B00000000,B00000000,B00000000,B00000000,B00000000,B00000000,B00000000,
@@ -66,10 +64,12 @@ void loop() {
       return;
     } 
     
+    updateEnemy();
     updateBomb();
     
     renderGame();
     renderPlayer();
+    renderEnemy();
     renderBomb();
   }  
 }

@@ -18,28 +18,28 @@ void renderPlayer() {
 
 void playerLeft() {
   playerx = max(0, playerx - playervx );
-   if (checkWallCollision()) {
+   if (checkWallCollision(&playerx,&playery)) {
       playerx = max(0, playerx + playervx );
    }
 }
 
 void playerRight() {
       playerx = min(LCDWIDTH - playerw, playerx + playervx );
-      if (checkWallCollision()) {
+      if (checkWallCollision(&playerx,&playery)) {
         playerx = min(LCDWIDTH - playerw, playerx - playervx );
      }
 }
 
 void playerUp() {
      playery = max(0, playery - playervy );
-     if (checkWallCollision()) {
+     if (checkWallCollision(&playerx,&playery)) {
         playery = max(0, playery + playervy );
      }
 }
 
  void playerDown() {
       playery = min(LCDHEIGHT - playerh, playery + playervy );
-      if (checkWallCollision()) {
+      if (checkWallCollision(&playerx,&playery)) {
        playery = min(LCDHEIGHT - playerh, playery - playervy );
      }
 }  
