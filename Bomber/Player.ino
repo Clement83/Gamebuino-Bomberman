@@ -19,36 +19,27 @@ void renderPlayer() {
 void playerLeft() {
   playerx = max(0, playerx - playervx );
    if (checkWallCollision()) {
-     playervx = 1;
       playerx = max(0, playerx + playervx );
-   } else {
-      playervx = playervxStart; 
    }
 }
 
 void playerRight() {
       playerx = min(LCDWIDTH - playerw, playerx + playervx );
       if (checkWallCollision()) {
-        playervx = 1;
         playerx = min(LCDWIDTH - playerw, playerx - playervx );
-     } else
-       playervx = playervyStart;
+     }
 }
 
 void playerUp() {
      playery = max(0, playery - playervy );
      if (checkWallCollision()) {
-       playervy = 1;
         playery = max(0, playery + playervy );
-     } else 
-       playervy = 2;
+     }
 }
 
  void playerDown() {
       playery = min(LCDHEIGHT - playerh, playery + playervy );
       if (checkWallCollision()) {
-        playervy= 1;
        playery = min(LCDHEIGHT - playerh, playery - playervy );
-     } else 
-       playervy = 2;
-   }  
+     }
+}  

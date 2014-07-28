@@ -45,15 +45,30 @@ extern byte playerw;
 extern byte playerh;
 
 bool checkWallCollision() {
-  for (byte row = 0; row < maze_h; row++) {
-    for (byte col = 0; col < maze_w; col++) {
-      if (maze[row][col] == 0 ) continue; // If not wall skip
+  // Get elements around player
+  int tileX = toTileX(playerx) - 2;
+  int tileY = toTileY(playery) - 2;
+  int tileXMax = tileX + 4;
+  int tileYMax = tileY + 4;
+  
+  if (tileX < 0) tileX = 0;
+  if (tileY < 0) tileY = 0;
+  
+  if (tileXMax > maze_w) tileXMax = maze_w;
+  if (tileYMax > maze_h) tileYMax = maze_h; 
+ 
+  for (byte row = tileY; row < tileYMax; row++) {
+    if (row > maze_h || row < 0) continue;
+    for (byte col = tileX; col < tileXMax; col++) {
+      if (col > maze_w || col < 0) continue;
+      if (maze[row][col] == 0 ) continue; // If empty skip
+ 
       if (gb.collideRectRect(playerx, playery, playerw, playerh, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
           Serial.print("Collision - Col:");
           Serial.print(col);
           Serial.print(" Row:");
           Serial.println(row);
-        return true;
+          return true;
       }
     }
   }
