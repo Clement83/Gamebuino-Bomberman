@@ -5,6 +5,8 @@ byte bomby = 0;
 unsigned long bombStart;
 
 void setBomb(byte x, byte y) {
+   if (bombActive) return;
+  
    bombx = (round(x/4) * 4);
    bomby = (round(y/4) * 4);
    bombActive = true; 

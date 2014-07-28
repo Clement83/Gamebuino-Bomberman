@@ -92,7 +92,7 @@ void debugRender() {
     gb.display.print("\nCPU: ");
     gb.display.print(gb.getCpuLoad());
     
-    gb.display.print("\nVersion: 1.0a");
+    gb.display.print("\nVersion: 1.1a");
 }
 
 void renderGame() {
