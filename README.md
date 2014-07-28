@@ -2,7 +2,7 @@
 
 A simple clone of the famous Bomberman for Gamebuino.
 
-Game is currently in the early stages of development
+Game is currently in the early stages of development. You can move the player around using the directional buttons, drop bombs and destroy squares that have no fill (the 2 centre columns).
 
 ![Copter](https://raw.githubusercontent.com/JohnAkerman/Gamebuino-Bomberman/master/bomber-preview.jpg)
 
@@ -19,4 +19,4 @@ Pre-built binaries are available in the `bin` directory to download and run on y
 Known Issues
 ============
 
-Player collision needs a bit of tweaking
+None
