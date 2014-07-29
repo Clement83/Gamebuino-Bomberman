@@ -2,7 +2,7 @@
 #include <Gamebuino.h>
 #include <math.h>
 Gamebuino gb = Gamebuino();
-
+#include "Bomb.h"
 boolean debug = false;
 extern const byte font3x5[];
 
@@ -52,6 +52,8 @@ void setup () {
   gb.battery.show = true; 
   gb.titleScreen(F("Bomberman by Limited"), logo);
   gb.display.setFont(font3x5);
+  
+  initBombs();
 }
 
 void loop() {
@@ -65,12 +67,12 @@ void loop() {
     } 
     
     updateEnemy();
-    updateBomb();
+    updateBombs();
     
     renderGame();
     renderPlayer();
     renderEnemy();
-    renderBomb();
+    renderBombs();
   }  
 }
 extern byte playerx;
