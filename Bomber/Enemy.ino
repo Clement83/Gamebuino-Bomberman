@@ -35,7 +35,7 @@ byte getDistance(byte x1, byte y1, byte x2,byte y2) {
 
 void updateEnemy() {
 
-  if (gb.frameCount % 15) {
+  if (gb.frameCount % 25) {
     if (getDistance(enemy.x,enemy.y,player.x,player.y) < 25) {
       enemyMode = 1; // Seek
     }

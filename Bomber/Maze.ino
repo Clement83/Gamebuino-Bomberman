@@ -39,11 +39,6 @@ void renderMap() {
   }
 }
 
-extern byte playerx;
-extern byte playery;
-extern byte playerw;
-extern byte playerh;
-
 boolean checkWallCollision(byte *xIn, byte *yIn) {
   // Get elements around player
   int tileX = toTileX(*xIn) - 2;
@@ -63,7 +58,7 @@ boolean checkWallCollision(byte *xIn, byte *yIn) {
       if (col > maze_w || col < 0) continue;
       if (maze[row][col] == 0 ) continue; // If empty skip
  
-      if (gb.collideRectRect(*xIn, *yIn, playerw, playerh, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
+      if (gb.collideRectRect(*xIn, *yIn, player.w, player.h, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
           Serial.print("Collision - Col:");
           Serial.print(col);
           Serial.print(" Row:");
@@ -79,8 +74,8 @@ void bombExplode(byte x, byte y) {
    byte tileX = toTileX(x);
    byte tileY = toTileY(y);
    
-   byte tilePlayerX = toTileX(playerx);
-   byte tilePlayerY = toTileY(playery);
+   byte tilePlayerX = toTileX(player.x);
+   byte tilePlayerY = toTileY(player.y);
    
    Serial.print("Bomb X:");
    Serial.print(tileX);
@@ -88,8 +83,7 @@ void bombExplode(byte x, byte y) {
    Serial.println(tileY);
    
    gb.sound.playOK();
-   
-   
+      
    // Check plyer dead
    if ((tilePlayerX==tileX+1 && tilePlayerY==tileY)
    || (tilePlayerX==tileX-1 && tilePlayerY==tileY)
