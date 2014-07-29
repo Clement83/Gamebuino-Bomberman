@@ -100,8 +100,8 @@ void bombExplode(byte x, byte y) {
        return;
   }
   
-   byte tileEnemyX = toTileX(enemyx);
-   byte tileEnemyY = toTileY(enemyy);
+   byte tileEnemyX = toTileX(enemy.x);
+   byte tileEnemyY = toTileY(enemy.y);
   
   if ((tileEnemyX==tileX+1 && tileEnemyY==tileY)
    || (tileEnemyX==tileX-1 && tileEnemyY==tileY)

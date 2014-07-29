@@ -3,6 +3,7 @@
 #include <math.h>
 Gamebuino gb = Gamebuino();
 #include "Bomb.h"
+#include "Entity.h"
 boolean debug = false;
 extern const byte font3x5[];
 
@@ -54,6 +55,7 @@ void setup () {
   gb.display.setFont(font3x5);
   
   initBombs();
+  initEnemy();
 }
 
 void loop() {

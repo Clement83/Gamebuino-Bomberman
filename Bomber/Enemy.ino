@@ -1,18 +1,23 @@
-byte enemyx = 60;
-byte enemyy = 16;
-byte enemyw = 4;
-byte enemyh = 4;
-byte enemyvx = 1;
-byte enemyvy = 1;
 
 byte enemyMode = 0;
 
-void enemySpawn() {
-  enemyx = 60;
-  enemyy = 16;
+Entity enemy;
+
+void initEnemy() {
+   enemy.x = 60;
+   enemy.y = 16;
+   enemy.w = 4;
+   enemy.h = 4;
+   enemy.vx = 1;
+   enemy.vy = 1;   
 }
 
-const byte enemy[] PROGMEM = {
+void enemySpawn() {
+  enemy.x = 60;
+  enemy.y = 16;
+}
+
+const byte enemySprite[] PROGMEM = {
   4, 4,
   B01100000,
   B11110000,
@@ -21,7 +26,7 @@ const byte enemy[] PROGMEM = {
 };
 
 void renderEnemy() {
-  gb.display.drawBitmap(enemyx, enemyy, enemy);
+  gb.display.drawBitmap(enemy.x, enemy.y, enemySprite);
 }
 
 byte getDistance(byte x1, byte y1, byte x2,byte y2) {
@@ -31,7 +36,7 @@ byte getDistance(byte x1, byte y1, byte x2,byte y2) {
 void updateEnemy() {
       
      if (gb.frameCount % 15) {
-        if (getDistance(enemyx,enemyy,playerx,playery) < 25) {
+        if (getDistance(enemy.x,enemy.y,playerx,playery) < 25) {
             enemyMode = 1; // Seek
         } else 
           enemyMode = 0; // Idle
@@ -40,42 +45,15 @@ void updateEnemy() {
     if (enemyMode == 1) {
     
       // Basic seek
-      if (playerx > enemyx)
-        enemyRight();    
-      else if (playerx < enemyx)
-        enemyLeft();        
-      if (playery > enemyy)
-        enemyDown();    
-      else if (playery < enemyy)
-        enemyUp();
+      if (playerx > enemy.x)
+        moveRight(&enemy);    
+      else if (playerx < enemy.x)
+        moveLeft(&enemy);        
+      if (playery > enemy.y)
+        moveDown(&enemy);    
+      else if (playery < enemy.y)
+        moveUp(&enemy);
     }
 }
 
 
-void enemyLeft() {
-  enemyx = max(0, enemyx - enemyvx );
-   if (checkWallCollision(&enemyx, &enemyy)) {
-      enemyx = max(0, enemyx + enemyvx );
-   }
-}
-
-void enemyRight() {
-      enemyx = min(LCDWIDTH - enemyw, enemyx + enemyvx );
-      if (checkWallCollision(&enemyx, &enemyy)) {
-        enemyx = min(LCDWIDTH - enemyw, enemyx - enemyvx );
-     }
-}
-
-void enemyUp() {
-     enemyy = max(0, enemyy - enemyvy );
-     if (checkWallCollision(&enemyx, &enemyy)) {
-        enemyy = max(0, enemyy + enemyvy );
-     }
-}
-
- void enemyDown() {
-      enemyy = min(LCDHEIGHT - enemyh, enemyy + enemyvy );
-      if (checkWallCollision(&enemyx, &enemyy)) {
-       enemyy = min(LCDHEIGHT - enemyh, enemyy - enemyvy );
-     }
-}  
