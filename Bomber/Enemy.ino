@@ -30,10 +30,12 @@ byte getDistance(byte x1, byte y1, byte x2,byte y2) {
 
 void updateEnemy() {
       
-    if (getDistance(enemyx,enemyy,playerx,playery) < 25) {
-        enemyMode = 1; // Seek
-    } else 
-      enemyMode = 0; // Idle
+     if (gb.frameCount % 15) {
+        if (getDistance(enemyx,enemyy,playerx,playery) < 25) {
+            enemyMode = 1; // Seek
+        } else 
+          enemyMode = 0; // Idle
+     }
     
     if (enemyMode == 1) {
     
@@ -41,8 +43,7 @@ void updateEnemy() {
       if (playerx > enemyx)
         enemyRight();    
       else if (playerx < enemyx)
-        enemyLeft();
-        
+        enemyLeft();        
       if (playery > enemyy)
         enemyDown();    
       else if (playery < enemyy)
