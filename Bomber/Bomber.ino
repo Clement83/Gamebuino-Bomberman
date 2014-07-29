@@ -4,6 +4,7 @@
 Gamebuino gb = Gamebuino();
 #include "Bomb.h"
 #include "Entity.h"
+#include "Player.h"
 boolean debug = false;
 extern const byte font3x5[];
 
@@ -56,6 +57,7 @@ void setup () {
   
   initBombs();
   initEnemy();
+  initPlayer();
 }
 
 void loop() {
@@ -77,18 +79,15 @@ void loop() {
     renderBombs();
   }  
 }
-extern byte playerx;
-extern byte playery;
-extern byte playerw;
-extern byte playerh;
+
 void debugRender() {
     if (!debug) return;
    
     gb.display.print("\nDebug Bomberman\n");
     gb.display.print("Player X:");
-    gb.display.print(playerx);
+    gb.display.print(player.x);
     gb.display.print("\nPlayer Y:");
-    gb.display.print(playery);
+    gb.display.print(player.y);
     
     gb.display.print("\nRAM Free:");
     gb.display.print(gb.getFreeRam());
@@ -111,18 +110,18 @@ void handleInput() {
      gb.titleScreen(F("Bomberman by Limited"), logo);
      
   if (gb.buttons.repeat(BTN_LEFT, 1))    
-    playerLeft();
+    moveLeft(&player);
     
   else if (gb.buttons.repeat(BTN_RIGHT, 1))    
-    playerRight();
+    moveRight(&player);
     
   else if (gb.buttons.repeat(BTN_UP, 1))   
-    playerUp();
+    moveUp(&player);
       
   else if (gb.buttons.repeat(BTN_DOWN, 1))    
-    playerDown();
+    moveDown(&player);
     
   if(gb.buttons.pressed(BTN_A)) {
-      setBomb(playerx+(playerw/2),playery+(playerh/2));
+      setBomb(player.x+(player.w/2),player.y+(player.h/2));
   }
 }

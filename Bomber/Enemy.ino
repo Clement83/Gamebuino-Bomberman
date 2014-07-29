@@ -4,12 +4,12 @@ byte enemyMode = 0;
 Entity enemy;
 
 void initEnemy() {
-   enemy.x = 60;
-   enemy.y = 16;
-   enemy.w = 4;
-   enemy.h = 4;
-   enemy.vx = 1;
-   enemy.vy = 1;   
+  enemy.x = 60;
+  enemy.y = 16;
+  enemy.w = 4;
+  enemy.h = 4;
+  enemy.vx = 1;
+  enemy.vy = 1;
 }
 
 void enemySpawn() {
@@ -34,26 +34,28 @@ byte getDistance(byte x1, byte y1, byte x2,byte y2) {
 }
 
 void updateEnemy() {
-      
-     if (gb.frameCount % 15) {
-        if (getDistance(enemy.x,enemy.y,playerx,playery) < 25) {
-            enemyMode = 1; // Seek
-        } else 
-          enemyMode = 0; // Idle
-     }
-    
-    if (enemyMode == 1) {
-    
-      // Basic seek
-      if (playerx > enemy.x)
-        moveRight(&enemy);    
-      else if (playerx < enemy.x)
-        moveLeft(&enemy);        
-      if (playery > enemy.y)
-        moveDown(&enemy);    
-      else if (playery < enemy.y)
-        moveUp(&enemy);
+
+  if (gb.frameCount % 15) {
+    if (getDistance(enemy.x,enemy.y,player.x,player.y) < 25) {
+      enemyMode = 1; // Seek
     }
+    else
+      enemyMode = 0; // Idle
+  }
+
+  if (enemyMode == 1) {
+
+    // Basic seek
+    if (player.x > enemy.x)
+      moveRight(&enemy);
+    else if (player.x < enemy.x)
+      moveLeft(&enemy);
+    if (player.y > enemy.y)
+      moveDown(&enemy);
+    else if (player.y < enemy.y)
+      moveUp(&enemy);
+  }
 }
+
 
 
