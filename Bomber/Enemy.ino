@@ -4,12 +4,11 @@ byte enemyMode = 0;
 Entity enemy;
 
 void initEnemy() {
-  enemy.x = 60;
-  enemy.y = 16;
   enemy.w = 4;
   enemy.h = 4;
   enemy.vx = 1;
   enemy.vy = 1;
+  enemySpawn();
 }
 
 void enemySpawn() {
