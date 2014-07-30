@@ -142,15 +142,16 @@ void bombExplode(byte x, byte y) {
    }  
 }
 
-
 void playerDead() {  
   gb.sound.playCancel();
-  setup();
+  gameState = 1;
+  playerDeaths++;
 }
 
 void enemyDead() {
   gb.sound.playCancel();
-  enemySpawn();
+  playerKills++;
+  entitySpawn(&enemy);
 }
 byte toTileX(byte xIn) {
    return round(xIn / wall_size_x); 

@@ -8,19 +8,7 @@ void initEnemy() {
   enemy.h = 4;
   enemy.vx = 1;
   enemy.vy = 1;
-  enemySpawn();
-}
-
-void enemySpawn() {
-    byte randomX = random(1, 20);
-    byte randomY = random(1, 12);
-    
-    if (mazeEmpty(randomX, randomY)) {
-         enemy.x = randomX * 4; 
-         enemy.y = randomY * 4;
-    } else
-      enemySpawn();
-    
+  entitySpawn(&enemy);
 }
 
 const byte enemySprite[] PROGMEM = {

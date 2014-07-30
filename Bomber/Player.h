@@ -1,6 +1,7 @@
 byte playervxStart;
 byte playervyStart;
-byte playerscore;
+byte playerDeaths;
+byte playerKills;
 
 Entity player;
 
@@ -13,7 +14,7 @@ void initPlayer() {
   playervxStart = player.vx;
   player.vy = 2;
   playervyStart = player.vy;
-  playerscore = 0;
+  playerDeaths = playerKills = 0;
 }
 
 void renderPlayer() {
