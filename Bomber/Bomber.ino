@@ -122,6 +122,7 @@ void handleInput() {
     moveDown(&player);
     
   if(gb.buttons.pressed(BTN_A)) {
-      setBomb(player.x+(player.w/2),player.y+(player.h/2));
+      //setBomb(player.x+(player.w/2),player.y+(player.h/2));
+      enemySpawn();
   }
 }

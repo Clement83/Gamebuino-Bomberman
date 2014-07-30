@@ -13,8 +13,15 @@ void initEnemy() {
 }
 
 void enemySpawn() {
-  enemy.x = 60;
-  enemy.y = 16;
+    byte randomX = random(1, 20);
+    byte randomY = random(1, 12);
+    
+    if (mazeEmpty(randomX, randomY)) {
+         enemy.x = randomX * 4; 
+         enemy.y = randomY * 4;
+    } else
+      enemySpawn();
+    
 }
 
 const byte enemySprite[] PROGMEM = {
@@ -36,7 +43,7 @@ byte getDistance(byte x1, byte y1, byte x2,byte y2) {
 void updateEnemy() {
 
   if (gb.frameCount % 25) {
-    if (getDistance(enemy.x,enemy.y,player.x,player.y) < 25) {
+    if (getDistance(enemy.x,enemy.y,player.x,player.y) < 30) {
       enemyMode = 1; // Seek
     }
     else

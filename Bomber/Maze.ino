@@ -25,6 +25,13 @@ void renderEdges () {
   gb.display.drawLine(LCDWIDTH-1, 0, LCDWIDTH-1, LCDHEIGHT-1); // Right
 }
 
+bool mazeEmpty(byte x, byte y) {
+  if (maze[y][x] == 0)
+    return true;
+  else 
+    return false;
+}
+
 void renderMap() {
     for(byte row = 0; row < maze_h; row++) {
     for(byte col = 0; col < maze_w; col++) {
