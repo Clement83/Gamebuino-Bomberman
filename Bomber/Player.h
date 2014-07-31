@@ -1,26 +1,21 @@
-byte playervxStart;
-byte playervyStart;
-byte playerDeaths;
-byte playerKills;
+#ifndef PLAYER_H
+#define PLAYER_H
+#include "Entity.h"
 
-Entity player;
+#include <Arduino.h>
+#include <Gamebuino.h>
 
-void initPlayer() {
-  player.x = 4;
-  player.y = 4;
-  player.w = 4;
-  player.h = 4;
-  player.vx = 2;
-  playervxStart = player.vx;
-  player.vy = 2;
-  playervyStart = player.vy;
-  playerDeaths = playerKills = 0;
-}
+class Player : Entity {
+  public:
+   Player();
+   void renderPlayer();
+   byte playervxStart;
+  byte playervyStart;
+  byte playerDeaths;
+  byte playerKills;
+};
 
-void renderPlayer() {
-   gb.display.fillRect(player.x, player.y, player.w, player.h); 
-   gb.display.setColor(WHITE);
-   gb.display.drawPixel(player.x+1, player.y+1);
-   gb.display.drawPixel(player.x+2, player.y+2);
-   gb.display.setColor(BLACK);
-}
+
+
+
+#endif;

@@ -1,5 +1,7 @@
 #include "Bomber.h"
 
+Gamebuino *gb = Gamebuino(); 
+
 boolean debug = false;
 byte gameState = 0;
 extern const byte font3x5[];
@@ -41,11 +43,8 @@ const byte logo[] PROGMEM = {
   B00000000,B00000000,B00000000,B00011111,B11100000,B00000000,B00000000,B00000000,
 };
 
-Bomber::Bomber() {
- Gamebuino *gb = Gamebuino(); 
-}
-
 void Bomber::setup () {
+  
   Serial.begin(9600);
   Serial.println("Loading...");
   gb.begin();

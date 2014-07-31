@@ -1,24 +1,26 @@
 #ifndef BOMBER_H
 #define BOMBER_H
 
-#include <SPI.h>
+#include <Arduino.h>
 #include <Gamebuino.h>
+#include <SPI.h>
 #include <math.h>
 
-#include "Bomb.h"
 #include "Entity.h"
+#include "Bomb.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Maze.h"
-Gamebuino gb;
+
 class Bomber {
   public:
      Bomber(); 
+     Gamebuino gb;
    
     Maze maze;
     Bomb bomb1;
-    Player playerx;
-    Enemy enemy1;
+    Player player;
+    Enemy enemy;
     
 
     byte gameState;
