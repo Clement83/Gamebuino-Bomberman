@@ -19,3 +19,4 @@ void Player::renderPlayer() {
    gb.display.drawPixel(player.x+2, player.y+2);
    gb.display.setColor(BLACK);
 }
+

@@ -1,6 +1,5 @@
 #include "Enemy.h"
 
-
 Enemy::Enemy() {
   enemy.w = 4;
   enemy.h = 4;
@@ -40,3 +39,4 @@ void Enemy::updateEnemy() {
       moveUp(&enemy);
   }
 }
+

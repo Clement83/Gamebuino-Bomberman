@@ -12,10 +12,10 @@
 class Maze {
   public:
     Maze();
-    void renderEdges(Gamebuino *gb);
+    void renderEdges();
     boolean isTileEmpty(byte x,byte y);
     void renderMaze(byte x, byte y);
-    boolean checkWallCollision(byte xIn, byte yIn, Gamebuino *gb);
+    boolean checkWallCollision(byte xIn, byte yIn);
     void bombExplode(byte x, byte y);  
     byte toTileX(byte x);
     byte toTileY(byte y);
@@ -26,4 +26,5 @@ class Maze {
 };
 
 #endif;
+
 

@@ -15,7 +15,7 @@
 class Bomber {
   public:
      Bomber(); 
-     Gamebuino gb;
+     Gamebuino *gb;
    
     Maze maze;
     Bomb bomb1;
@@ -35,3 +35,4 @@ class Bomber {
     void handleInput();
 };
 #endif
+

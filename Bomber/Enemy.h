@@ -9,7 +9,6 @@ class Enemy : Entity {
     void renderEnemy();
     void getDistance();
     void updateEnemy();
-    
 };
 
 byte enemyMode = 0;
@@ -24,5 +23,6 @@ const byte enemySprite[] PROGMEM = {
 
 
 #endif
+
 
 

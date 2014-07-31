@@ -1,7 +1,6 @@
 #ifndef BOMB_H
 #define BOMB_H
 #include <Arduino.h>
-#include <Gamebuino.h>
 #define BOMB_MAX 3
 
 class Bomb {
@@ -19,4 +18,5 @@ class Bomb {
 };
 
 #endif
+
 

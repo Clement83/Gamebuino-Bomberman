@@ -1,5 +1,4 @@
 #include "Bomb.h"
-
 Bomb bombs[BOMB_MAX];
 
 void Bomb::initBombs() {
@@ -46,3 +45,4 @@ void Bomb::updateBombs() {
       } 
   }
 }
+

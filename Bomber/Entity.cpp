@@ -13,28 +13,29 @@ void Entity::entitySpawn(Entity *e) {
 }
 void Entity::moveLeft(Entity *e) {
   e->x = max(0, e->x - e->vx );
-   if (Maze::checkWallCollision(&e->x, &e->y, *gb)) {
+   if (Maze::checkWallCollision(&e->x, &e->y)) {
       e->x = max(0, e->x + e->vx );
    }
 }
 
 void Entity::moveRight(Entity *e) {
       e->x = min(LCDWIDTH - e->w, e->x + e->vx );
-      if (Maze::checkWallCollision(&e->x, &e->y, *gb)) {
+      if (Maze::checkWallCollision(&e->x, &e->y)) {
         e->x = min(LCDWIDTH - e->w, e->x - e->vx );
      }
 }
 
 void Entity::moveUp(Entity *e) {
      e->y = max(0, e->y - e->vy );
-     if (Maze::checkWallCollision(&e->x, &e->y,*gb)) {
+     if (Maze::checkWallCollision(&e->x, &e->y)) {
         e->y = max(0, e->y + e->vy );
      }
 }
 
  void Entity::moveDown(Entity *e) {
      e->y = min(LCDHEIGHT - e->h, e->y + e->vy );
-      if (Maze::checkWallCollision(&e->x, &e->y,*gb)) {
+      if (Maze::checkWallCollision(&e->x, &e->y)) {
        e->y = min(LCDHEIGHT - e->h, e->y - e->vy );
      }
 }  
+

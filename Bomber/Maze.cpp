@@ -19,7 +19,7 @@ Maze::Maze() {
 void Maze::init() {
   return;
 }
-void Maze::renderEdges (Gamebuino *gb) {
+void Maze::renderEdges () {
   gb->display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
   gb->display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
   gb->display.drawLine(0, 1, 0, LCDHEIGHT-1); // Left
@@ -47,7 +47,7 @@ void Maze::renderMaze() {
   }
 }
 
-boolean Maze::checkWallCollision(byte xIn, byte yIn, Gamebuino *gb) {
+boolean Maze::checkWallCollision(byte xIn, byte yIn) {
   // Get elements around player
   int tileX = Maze::toTileX(*xIn) - 2;
   int tileY = Maze::toTileY(*yIn) - 2;
@@ -177,3 +177,4 @@ boolean Maze::isBreakable(byte y, byte x) {
         break;
   }
 }
+
