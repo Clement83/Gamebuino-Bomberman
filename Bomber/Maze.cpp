@@ -1,38 +1,39 @@
-#define wall_size_x 4
-#define wall_size_y 4
-#define maze_w 21
-#define maze_h 12
+#include "Maze.h"
 
-byte maze[maze_w][maze_w] = {
-{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
-{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-};
-
-void renderEdges () {
-  gb.display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
-  gb.display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
-  gb.display.drawLine(0, 1, 0, LCDHEIGHT-1); // Left
-  gb.display.drawLine(LCDWIDTH-1, 0, LCDWIDTH-1, LCDHEIGHT-1); // Right
+Maze::Maze() {
+  byte maze[maze_w][maze_w] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    };
+}
+void Maze::init() {
+  return;
+}
+void Maze::renderEdges (Gamebuino *gb) {
+  gb->display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
+  gb->display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
+  gb->display.drawLine(0, 1, 0, LCDHEIGHT-1); // Left
+  gb->display.drawLine(LCDWIDTH-1, 0, LCDWIDTH-1, LCDHEIGHT-1); // Right
 }
 
-bool mazeEmpty(byte x, byte y) {
+boolean Maze::isTileEmpty(byte x, byte y) {
   if (maze[y][x] == 0)
     return true;
   else 
     return false;
 }
 
-void renderMap() {
+void Maze::renderMaze() {
     for(byte row = 0; row < maze_h; row++) {
     for(byte col = 0; col < maze_w; col++) {
       if (maze[row][col] == 1) {
@@ -46,10 +47,10 @@ void renderMap() {
   }
 }
 
-boolean checkWallCollision(byte *xIn, byte *yIn) {
+boolean Maze::checkWallCollision(byte xIn, byte yIn, Gamebuino *gb) {
   // Get elements around player
-  int tileX = toTileX(*xIn) - 2;
-  int tileY = toTileY(*yIn) - 2;
+  int tileX = Maze::toTileX(*xIn) - 2;
+  int tileY = Maze::toTileY(*yIn) - 2;
   int tileXMax = tileX + 4;
   int tileYMax = tileY + 4;
   
@@ -65,7 +66,7 @@ boolean checkWallCollision(byte *xIn, byte *yIn) {
       if (col > maze_w || col < 0) continue;
       if (maze[row][col] == 0 ) continue; // If empty skip
  
-      if (gb.collideRectRect(*xIn, *yIn, player.w, player.h, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
+      if (gb->collideRectRect(xIn, yIn, player.w, player.h, col*wall_size_x, row*wall_size_y, wall_size_x, wall_size_y)) {
           Serial.print("Collision - Col:");
           Serial.print(col);
           Serial.print(" Row:");
@@ -77,12 +78,12 @@ boolean checkWallCollision(byte *xIn, byte *yIn) {
   return false;
 }
 
-void bombExplode(byte x, byte y) {
-   byte tileX = toTileX(x);
-   byte tileY = toTileY(y);
+void Maze::bombExplode(byte x, byte y) {
+   byte tileX = Maze::toTileX(x);
+   byte tileY = Maze::toTileY(y);
    
-   byte tilePlayerX = toTileX(player.x);
-   byte tilePlayerY = toTileY(player.y);
+   byte tilePlayerX = Maze::toTileX(player.x);
+   byte tilePlayerY = Maze::toTileY(player.y);
    
    Serial.print("Bomb X:");
    Serial.print(tileX);
@@ -142,29 +143,27 @@ void bombExplode(byte x, byte y) {
    }  
 }
 
-void playerDead() {  
+void Maze::playerDead() {  
   gb.sound.playCancel();
   gameState = 1;
   playerDeaths++;
 }
 
-void enemyDead() {
+void Maze::enemyDead() {
   gb.sound.playCancel();
   playerKills++;
   entitySpawn(&enemy);
 }
-byte toTileX(byte xIn) {
-   return round(xIn / wall_size_x); 
+byte Maze::toTileX(byte x) {
+   return round(x / wall_size_x); 
 }
 
-byte toTileY(byte yIn) {
-   return round(yIn / wall_size_y); 
+byte Maze::toTileY(byte y) {
+   return round(y / wall_size_y); 
 }
 
-boolean isBreakable(byte y, byte x) {  
+boolean Maze::isBreakable(byte y, byte x) {  
   // TODO: check bounds
-  Serial.print("tile: ");
-  Serial.println(maze[y][x]);
 
   switch(maze[y][x]) {
      case 0:

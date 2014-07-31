@@ -1,11 +1,5 @@
-#include <SPI.h>
-#include <Gamebuino.h>
-#include <math.h>
-Gamebuino gb = Gamebuino();
-#include "Bomb.h"
-#include "Entity.h"
-#include "Player.h"
-#include "Enemy.h"
+#include "Bomber.h"
+
 boolean debug = false;
 byte gameState = 0;
 extern const byte font3x5[];
@@ -47,7 +41,11 @@ const byte logo[] PROGMEM = {
   B00000000,B00000000,B00000000,B00011111,B11100000,B00000000,B00000000,B00000000,
 };
 
-void setup () {
+Bomber::Bomber() {
+ Gamebuino *gb = Gamebuino(); 
+}
+
+void Bomber::setup () {
   Serial.begin(9600);
   Serial.println("Loading...");
   gb.begin();
@@ -56,13 +54,15 @@ void setup () {
   gb.battery.show = true;
   gb.titleScreen(F("Bomberman by Limited"), logo);
   gb.display.setFont(font3x5);
+  
+  Maze maze();
 
-  initBombs();
+  Bombs::initBombs();
   initEnemy();
   initPlayer();
 }
 
-void loop() {
+void Bomber::loop() {
   if (gb.update()) {
 
     handleInput();
@@ -81,7 +81,7 @@ void loop() {
       renderGame();
       renderPlayer();
       renderEnemy();
-      renderBombs();
+      renderBombs(*gb);
       break;
     case 1: // Dead
       deadMenu();
@@ -90,11 +90,11 @@ void loop() {
   }
 }
 
-void deadMenu() {
+void Bomber::deadMenu() {
   gb.display.print("\nYou Died\nPress A to respawn");
 }
 
-void debugRender() {
+void Bomber::debugRender() {
   if (!debug) return;
 
   gb.display.print("\nDebug Bomberman\n");
@@ -112,7 +112,7 @@ void debugRender() {
   gb.display.print("\nVersion: 1.1a");
 }
 
-void renderGame() {
+void Bomber::renderGame() {
   if (!debug)
     renderMap();
     
@@ -124,7 +124,7 @@ void renderGame() {
     gb.display.cursorY = 16;
     gb.display.print(playerKills);
 }
-void handleInput() {
+void Bomber::handleInput() {
   if (gb.buttons.pressed(BTN_B))
     debug = !debug;
 

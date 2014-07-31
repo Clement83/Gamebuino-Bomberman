@@ -1,3 +1,5 @@
+#include "Maze.h"
+
 typedef struct {
   boolean active;
   byte x;
@@ -10,7 +12,7 @@ typedef struct {
 
 void moveLeft(Entity *e) {
   e->x = max(0, e->x - e->vx );
-   if (checkWallCollision(&e->x, &e->y)) {
+   if (Maze::checkWallCollision(&e->x, &e->y, *gb)) {
       e->x = max(0, e->x + e->vx );
    }
 }
@@ -18,7 +20,7 @@ void entitySpawn(Entity *e) {
     byte randomX = random(1, 20);
     byte randomY = random(1, 12);
     
-    if (mazeEmpty(randomX, randomY)) {
+    if (Maze::isTileEmpty(randomX, randomY)) {
          e->x = randomX * 4; 
          e->y = randomY * 4;
     } else
@@ -27,21 +29,21 @@ void entitySpawn(Entity *e) {
 }
 void moveRight(Entity *e) {
       e->x = min(LCDWIDTH - e->w, e->x + e->vx );
-      if (checkWallCollision(&e->x, &e->y)) {
+      if (Maze::checkWallCollision(&e->x, &e->y, *gb)) {
         e->x = min(LCDWIDTH - e->w, e->x - e->vx );
      }
 }
 
 void moveUp(Entity *e) {
      e->y = max(0, e->y - e->vy );
-     if (checkWallCollision(&e->x, &e->y)) {
+     if (Maze::checkWallCollision(&e->x, &e->y,*gb)) {
         e->y = max(0, e->y + e->vy );
      }
 }
 
  void moveDown(Entity *e) {
      e->y = min(LCDHEIGHT - e->h, e->y + e->vy );
-      if (checkWallCollision(&e->x, &e->y)) {
+      if (Maze::checkWallCollision(&e->x, &e->y,*gb)) {
        e->y = min(LCDHEIGHT - e->h, e->y - e->vy );
      }
 }  

@@ -1,4 +1,3 @@
-
 byte enemyMode = 0;
 
 Entity enemy;
