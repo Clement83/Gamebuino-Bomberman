@@ -17,7 +17,6 @@ class Maze {
     byte toTileX(byte x);
     byte toTileY(byte y);
     boolean isBreakable(byte x, byte y);
-    void playerDead();
     void enemyDead();
     
 };

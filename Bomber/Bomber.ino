@@ -134,6 +134,20 @@ void renderHud() {
     gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1;
     gb.display.cursorY = 16;
     gb.display.print(player.kills);
+         
+    gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1-16;
+    gb.display.cursorY = 35;
+    gb.display.print(enemy.dist);
+    
+    gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1-66;
+    gb.display.cursorY = 35;
+    gb.display.print(player.health);
+    
+    // Health bar
+    byte hBar = ((player.health /7) <= 0) ? 0 : (player.health /7);
+    
+    gb.display.fillRect(LCDWIDTH-gb.display.fontWidth+1, 40, 2,-hBar);
+    
 }
 void handleInput() {
   if (gb.buttons.pressed(BTN_B)) {

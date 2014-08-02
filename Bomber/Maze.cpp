@@ -108,7 +108,7 @@ void Maze::bombExplode(byte x, byte y) {
    || (tilePlayerX==tileX && tilePlayerY==tileY-1)
    || (tilePlayerX==tileX && tilePlayerY==tileY+1)
    || (tilePlayerX==tileX && tilePlayerY==tileY)) {
-       playerDead();
+       player.setDead();
        return;
   }
   
@@ -153,11 +153,6 @@ void Maze::bombExplode(byte x, byte y) {
    }  
 }
 
-void Maze::playerDead() {  
-  gb.sound.playCancel();
-  gameState = 1;
-  player.deaths++;
-}
 
 void Maze::enemyDead() {
   gb.sound.playCancel();

@@ -18,15 +18,14 @@ void Enemy::renderEnemy() {
 }
 
 void Enemy::updateEnemy() {
-
+  
+  dist = getDistance(x,y,player.x,player.y);
+  
   if (gb.frameCount % 25) {
-    if (getDistance(x,y,player.x,player.y) < 30) {
-      enemyMode = 1; // Seek
-    }
-    else
-      enemyMode = 0; // Idle
+    if (dist < 30) enemyMode = 1; // Seek    
+    else enemyMode = 0; // Idle
+    if (dist <= 4) player.doDamage(10);
   }
-
   if (enemyMode == 1) {
 
     // Basic seek

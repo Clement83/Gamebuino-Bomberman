@@ -9,6 +9,7 @@
 class Enemy : public Entity {
   public:  
     Enemy();
+    byte dist;
     byte enemyMode;
     void initEnemy();
     void renderEnemy();
