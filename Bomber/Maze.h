@@ -19,6 +19,7 @@ class Maze {
     boolean isBreakable(byte x, byte y);
     void playerDead();
     void enemyDead();
+    
 };
 
 #endif;

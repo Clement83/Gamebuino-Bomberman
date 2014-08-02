@@ -9,6 +9,8 @@ class Bomb {
     byte y;
     boolean active;
     unsigned long startTime;
+    
+    void render();
 };
 
 #endif

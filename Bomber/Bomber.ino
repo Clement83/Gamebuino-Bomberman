@@ -175,14 +175,7 @@ void handleInput() {
 void renderBombs() {
   for (int i = 0; i < BOMB_MAX; i++) {
       if (!bombs[i].active) continue;
-      
-      Bomb *b = &bombs[i];
-      if (gb.frameCount % 25) {
-        gb.display.fillRect(b->x+1,b->y, 2,1); // top  
-        gb.display.fillRect(b->x,b->y+1,1,2); // left  
-        gb.display.fillRect(b->x+1,b->y+3, 2,1); // bottom
-        gb.display.fillRect(b->x+3,b->y+1, 1,2); // right
-      }
+      bombs[i].render();      
   }
 }
 
