@@ -1,6 +1,6 @@
 #include "Player.h"
 
-extern Gamebuino *gb;
+extern Gamebuino gb;
 
 Player::Player() {
   x = 4;
@@ -15,10 +15,10 @@ Player::Player() {
 }
 
 void Player::renderPlayer() {
-   gb->display.fillRect(x, y, w, h); 
-   gb->display.setColor(WHITE);
-   gb->display.drawPixel(x+1, y+1);
-   gb->display.drawPixel(x+2, y+2);
-   gb->display.setColor(BLACK);
+   gb.display.fillRect(x, y, w, h); 
+   gb.display.setColor(WHITE);
+   gb.display.drawPixel(x+1, y+1);
+   gb.display.drawPixel(x+2, y+2);
+   gb.display.setColor(BLACK);
 }
 

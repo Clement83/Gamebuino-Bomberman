@@ -62,11 +62,6 @@ void setup () {
   gb.battery.show = true;
   gb.titleScreen(F("Bomberman by Limited"), logo);
   gb.display.setFont(font3x5);
-  
-  Maze maze();
-  Enemy enemy();
-  Player player();
-  Bomb bombs();
 }
 
 void loop() {
@@ -82,15 +77,14 @@ void loop() {
     switch(gameState) {
 
     case 0:
-      //enemy.updateEnemy();
+      enemy.updateEnemy();
       updateBombs();
 
       renderGame();
       player.renderPlayer();
-      //enemy.renderEnemy();
+      enemy.renderEnemy();
       renderBombs();
-        if (!debug)
-    maze.renderMaze();
+     
       break;
     case 1: // Dead
       deadMenu();
@@ -118,11 +112,12 @@ void debugRender() {
   gb.display.print("\nCPU: ");
   gb.display.print(gb.getCpuLoad());
 
-  gb.display.print("\nVersion: 1.1a");
+  gb.display.print("\nVersion: 2.0a");
 }
 
 void renderGame() {
-
+   if (!debug)
+    maze.renderMaze();
     
     gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1;
     gb.display.cursorY = 8;
@@ -133,8 +128,9 @@ void renderGame() {
     gb.display.print(player.kills);
 }
 void handleInput() {
-  if (gb.buttons.pressed(BTN_B))
+  if (gb.buttons.pressed(BTN_B)) {
     debug = !debug;
+  }
 
   if (gb.buttons.pressed(BTN_C))
     gb.titleScreen(F("Bomberman by Limited"), logo);

@@ -1,10 +1,6 @@
 #include "Bomb.h"
 #define BOMB_MAX 3
 
-
-#include "Maze.h"
-extern Gamebuino *gb;
-extern Maze maze;
 extern Bomb bombs[];
 
 void bombsInit() {

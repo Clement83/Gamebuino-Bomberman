@@ -2,7 +2,7 @@
 #include "Player.h"
 #include <Arduino.h>
 #include <Gamebuino.h>
-extern Gamebuino *gb;
+extern Gamebuino gb;
 extern Player player;
 
 Enemy::Enemy() {
@@ -14,12 +14,12 @@ Enemy::Enemy() {
 }
 
 void Enemy::renderEnemy() {
-  gb->display.drawBitmap(x, y, enemySprite);
+  gb.display.drawBitmap(x, y, enemySprite);
 }
 
 void Enemy::updateEnemy() {
 
-  if (gb->frameCount % 25) {
+  if (gb.frameCount % 25) {
     if (getDistance(x,y,player.x,player.y) < 30) {
       enemyMode = 1; // Seek
     }

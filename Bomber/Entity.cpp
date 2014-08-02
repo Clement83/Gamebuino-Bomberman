@@ -3,7 +3,7 @@
 
 #include "Player.h"
 #include "Maze.h"
-extern Gamebuino *gb;
+extern Gamebuino gb;
 extern Maze maze;
 
 Entity::Entity() {

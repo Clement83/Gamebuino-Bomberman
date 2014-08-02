@@ -1,5 +1,11 @@
 #include <math.h>
 #include <Arduino.h>
+#include "Entity.h"
+#include "Bomb.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Maze.h"
+
 class Bomber {
   public:
     Gamebuino gb;
@@ -14,8 +20,4 @@ class Bomber {
     void handleInput();
 };
 
-#include "Entity.h"
-#include "Bomb.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Maze.h"
+
