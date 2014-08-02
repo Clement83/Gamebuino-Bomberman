@@ -1,17 +1,19 @@
-#ifndef "Enemy.h"
-#define "Enemy.h"
+#ifndef ENEMY_H
+#define ENEMY_H
 
-class Enemy : Entity {
+#include <Arduino.h>
+#include <Gamebuino.h>
+
+#include "Entity.h"
+
+class Enemy : public Entity {
   public:  
     Enemy();
     byte enemyMode;
     void initEnemy();
     void renderEnemy();
-    void getDistance();
     void updateEnemy();
 };
-
-byte enemyMode = 0;
 
 const byte enemySprite[] PROGMEM = {
   4, 4,
@@ -20,7 +22,6 @@ const byte enemySprite[] PROGMEM = {
   B11110000,
   B01100000
 };
-
 
 #endif
 

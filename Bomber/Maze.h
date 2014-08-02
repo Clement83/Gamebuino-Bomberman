@@ -14,7 +14,7 @@ class Maze {
     Maze();
     void renderEdges();
     boolean isTileEmpty(byte x,byte y);
-    void renderMaze(byte x, byte y);
+    void renderMaze();
     boolean checkWallCollision(byte xIn, byte yIn);
     void bombExplode(byte x, byte y);  
     byte toTileX(byte x);

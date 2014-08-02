@@ -1,4 +1,10 @@
 #include "Maze.h"
+#include "Player.h"
+#include "Enemy.h"
+extern Gamebuino *gb;
+extern Player player;
+extern Enemy enemy;
+extern byte gameState;
 
 Maze::Maze() {
   byte maze[maze_w][maze_w] = {
@@ -16,9 +22,7 @@ Maze::Maze() {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     };
 }
-void Maze::init() {
-  return;
-}
+
 void Maze::renderEdges () {
   gb->display.drawLine(0, 0, LCDWIDTH-1, 0); // Top
   gb->display.drawLine(0, LCDHEIGHT-1, LCDWIDTH-1, LCDHEIGHT-1); // Bottom  
@@ -37,11 +41,11 @@ void Maze::renderMaze() {
     for(byte row = 0; row < maze_h; row++) {
     for(byte col = 0; col < maze_w; col++) {
       if (maze[row][col] == 1) {
-        gb.display.fillRect(col*4,row*4,4,4); 
+        gb->display.fillRect(col*4,row*4,4,4); 
       } else if (maze[row][col] == 2 ) {
-        gb.display.drawRect(col*4,row*4,4,4);         
+        gb->display.drawRect(col*4,row*4,4,4);         
       } else if (maze[row][col] == 2 ) {
-        gb.display.drawRect(col*4,row*4,4,4);         
+        gb->display.drawRect(col*4,row*4,4,4);         
       }
     }
   }
@@ -49,8 +53,8 @@ void Maze::renderMaze() {
 
 boolean Maze::checkWallCollision(byte xIn, byte yIn) {
   // Get elements around player
-  int tileX = Maze::toTileX(*xIn) - 2;
-  int tileY = Maze::toTileY(*yIn) - 2;
+  int tileX = toTileX(xIn) - 2;
+  int tileY = toTileY(yIn) - 2;
   int tileXMax = tileX + 4;
   int tileYMax = tileY + 4;
   
@@ -90,7 +94,7 @@ void Maze::bombExplode(byte x, byte y) {
    Serial.print(" Y:" );
    Serial.println(tileY);
    
-   gb.sound.playOK();
+   gb->sound.playOK();
       
    // Check plyer dead
    if ((tilePlayerX==tileX+1 && tilePlayerY==tileY)
@@ -118,41 +122,41 @@ void Maze::bombExplode(byte x, byte y) {
    if (isBreakable(tileY, tileX+1)) {
      Serial.println("Breakable Right");
       maze[tileY][tileX+1] = 0;     
-      gb.sound.playTick();
+      gb->sound.playTick();
    }   
    
    // Check left
    if (isBreakable(tileY, tileX-1) ) {
      Serial.println("Breakable Left");
       maze[tileY][tileX-1] = 0;     
-      gb.sound.playTick();
+      gb->sound.playTick();
    }   
    
    // Check Up
    if (isBreakable(tileY-1, tileX) ) {
      Serial.println("Breakable Up");
       maze[tileY-1][tileX] = 0;     
-      gb.sound.playTick();
+      gb->sound.playTick();
    } 
   
    // Check Down
    if (isBreakable(tileY+1, tileX) ) {
      Serial.println("Breakable Down");
       maze[tileY+1][tileX] = 0;    
-     gb.sound.playTick() ;
+     gb->sound.playTick() ;
    }  
 }
 
 void Maze::playerDead() {  
-  gb.sound.playCancel();
+  gb->sound.playCancel();
   gameState = 1;
-  playerDeaths++;
+  player.deaths++;
 }
 
 void Maze::enemyDead() {
-  gb.sound.playCancel();
-  playerKills++;
-  entitySpawn(&enemy);
+  gb->sound.playCancel();
+  player.kills++;
+  enemy.entitySpawn();
 }
 byte Maze::toTileX(byte x) {
    return round(x / wall_size_x); 

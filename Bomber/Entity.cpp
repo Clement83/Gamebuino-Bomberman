@@ -1,41 +1,55 @@
 #include "Entity.h"
+#include "Maze.h"
 
-void Entity::entitySpawn(Entity *e) {
+#include "Player.h"
+#include "Maze.h"
+extern Gamebuino *gb;
+extern Maze maze;
+
+Entity::Entity() {
+  
+}
+
+void Entity::entitySpawn() {
     byte randomX = random(1, 20);
     byte randomY = random(1, 12);
     
-    if (Maze::isTileEmpty(randomX, randomY)) {
-         e->x = randomX * 4; 
-         e->y = randomY * 4;
+    if (maze.isTileEmpty(randomX, randomY)) {
+         x = randomX * 4; 
+         y = randomY * 4;
     } else
-      entitySpawn(e);
-    
+      entitySpawn();    
 }
-void Entity::moveLeft(Entity *e) {
-  e->x = max(0, e->x - e->vx );
-   if (Maze::checkWallCollision(&e->x, &e->y)) {
-      e->x = max(0, e->x + e->vx );
+
+byte Entity::getDistance(byte x1, byte y1, byte x2,byte y2) {
+  return floor((abs(sqrt(((x1 - x2) * (x1 - x2) ) + ( (y1 - y2) * (y1 - y2) ) ))));
+}
+
+void Entity::moveLeft() {
+  x = max(0, x - vx );
+   if (maze.checkWallCollision(x, y)) {
+      x = max(0, x + vx );
    }
 }
 
-void Entity::moveRight(Entity *e) {
-      e->x = min(LCDWIDTH - e->w, e->x + e->vx );
-      if (Maze::checkWallCollision(&e->x, &e->y)) {
-        e->x = min(LCDWIDTH - e->w, e->x - e->vx );
+void Entity::moveRight() {
+      x = min(LCDWIDTH - w, x + vx );
+      if (maze.checkWallCollision(x, y)) {
+        x = min(LCDWIDTH - w, x - vx );
      }
 }
 
-void Entity::moveUp(Entity *e) {
-     e->y = max(0, e->y - e->vy );
-     if (Maze::checkWallCollision(&e->x, &e->y)) {
-        e->y = max(0, e->y + e->vy );
+void Entity::moveUp() {
+     y = max(0, y - vy );
+     if (maze.checkWallCollision(x, y)) {
+        y = max(0, y + vy );
      }
 }
 
- void Entity::moveDown(Entity *e) {
-     e->y = min(LCDHEIGHT - e->h, e->y + e->vy );
-      if (Maze::checkWallCollision(&e->x, &e->y)) {
-       e->y = min(LCDHEIGHT - e->h, e->y - e->vy );
+ void Entity::moveDown() {
+     y = min(LCDHEIGHT - h, y + vy );
+      if (maze.checkWallCollision(x, y)) {
+       y = min(LCDHEIGHT - h, y - vy );
      }
 }  
 

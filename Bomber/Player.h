@@ -5,18 +5,15 @@
 #include <Arduino.h>
 #include <Gamebuino.h>
 
-class Player : Entity {
+class Player : public Entity {
   public:
    Player();
    void renderPlayer();
    byte playervxStart;
   byte playervyStart;
-  byte playerDeaths;
-  byte playerKills;
+  byte deaths;
+  byte kills;
 };
-
-
-
 
 #endif;
 

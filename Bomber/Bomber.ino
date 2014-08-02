@@ -1,10 +1,19 @@
+#include <SPI.h>
+#include <Gamebuino.h>
 #include "Bomber.h"
-
-Gamebuino *gb = Gamebuino(); 
+Gamebuino gb = Gamebuino();
 
 boolean debug = false;
 byte gameState = 0;
 extern const byte font3x5[];
+
+#define BOMB_MAX 3
+
+Bomber bomber;
+Maze maze;
+Player player;
+Enemy enemy;
+Bomb bombs[BOMB_MAX];
 
 const byte logo[] PROGMEM = {
   64,30,
@@ -43,7 +52,7 @@ const byte logo[] PROGMEM = {
   B00000000,B00000000,B00000000,B00011111,B11100000,B00000000,B00000000,B00000000,
 };
 
-void Bomber::setup () {
+void setup () {
   
   Serial.begin(9600);
   Serial.println("Loading...");
@@ -55,13 +64,12 @@ void Bomber::setup () {
   gb.display.setFont(font3x5);
   
   Maze maze();
-
-  Bombs::initBombs();
-  initEnemy();
-  initPlayer();
+  Enemy enemy();
+  Player player();
+  Bomb bombs();
 }
 
-void Bomber::loop() {
+void loop() {
   if (gb.update()) {
 
     handleInput();
@@ -74,13 +82,15 @@ void Bomber::loop() {
     switch(gameState) {
 
     case 0:
-      updateEnemy();
+      //enemy.updateEnemy();
       updateBombs();
 
       renderGame();
-      renderPlayer();
-      renderEnemy();
-      renderBombs(*gb);
+      player.renderPlayer();
+      //enemy.renderEnemy();
+      renderBombs();
+        if (!debug)
+    maze.renderMaze();
       break;
     case 1: // Dead
       deadMenu();
@@ -89,11 +99,11 @@ void Bomber::loop() {
   }
 }
 
-void Bomber::deadMenu() {
+void deadMenu() {
   gb.display.print("\nYou Died\nPress A to respawn");
 }
 
-void Bomber::debugRender() {
+void debugRender() {
   if (!debug) return;
 
   gb.display.print("\nDebug Bomberman\n");
@@ -111,19 +121,18 @@ void Bomber::debugRender() {
   gb.display.print("\nVersion: 1.1a");
 }
 
-void Bomber::renderGame() {
-  if (!debug)
-    renderMap();
+void renderGame() {
+
     
     gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1;
     gb.display.cursorY = 8;
-    gb.display.print(playerDeaths);
+    gb.display.print(player.deaths);
     
     gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1;
     gb.display.cursorY = 16;
-    gb.display.print(playerKills);
+    gb.display.print(player.kills);
 }
-void Bomber::handleInput() {
+void handleInput() {
   if (gb.buttons.pressed(BTN_B))
     debug = !debug;
 
@@ -133,16 +142,16 @@ void Bomber::handleInput() {
 
   if (gameState == 0) { // Playing
     if (gb.buttons.repeat(BTN_LEFT, 1))
-      moveLeft(&player);
+      player.moveLeft();
 
     else if (gb.buttons.repeat(BTN_RIGHT, 1))
-      moveRight(&player);
+      player.moveRight();
 
     else if (gb.buttons.repeat(BTN_UP, 1))
-      moveUp(&player);
+      player.moveUp();
 
     else if (gb.buttons.repeat(BTN_DOWN, 1))
-      moveDown(&player);
+      player.moveDown();
 
     if(gb.buttons.pressed(BTN_A)) {
       setBomb(player.x+(player.w/2),player.y+(player.h/2));
@@ -151,12 +160,51 @@ void Bomber::handleInput() {
   else if (gameState == 1) {
     if (gb.buttons.pressed(BTN_A)) {
       // Respawn player
-      entitySpawn(&enemy);
-      entitySpawn(&player);
+      enemy.entitySpawn();
+      player.entitySpawn();
       player.active = true;
       gameState = 0;
     }
   }
+}
+
+void renderBombs() {
+  for (int i = 0; i < BOMB_MAX; i++) {
+      if (!bombs[i].active) continue;
+      
+      Bomb *b = &bombs[i];
+      if (gb.frameCount % 25) {
+        gb.display.fillRect(b->x+1,b->y, 2,1); // top  
+        gb.display.fillRect(b->x,b->y+1,1,2); // left  
+        gb.display.fillRect(b->x+1,b->y+3, 2,1); // bottom
+        gb.display.fillRect(b->x+3,b->y+1, 1,2); // right
+      }
+  }
+}
+
+void updateBombs() {
+  for (int i = 0; i < BOMB_MAX; i++) {
+      if (!bombs[i].active) continue;
+      Bomb *b = &bombs[i];
+  
+      if ((millis() - b->startTime) >= 5000) {
+         b->active = false; 
+          maze.bombExplode(b->x, b->y);
+      } 
+  }
+}
+void setBomb(byte x, byte y) {
+   for (int i= 0; i < BOMB_MAX; i++) {     
+      if (bombs[i].active) continue; 
+      
+      Bomb b;
+      b.active = true;
+      b.x = (round(x/4) * 4);
+      b.y = (round(y/4) * 4);
+      b.startTime = millis();
+      bombs[i] = b;
+      break;
+   }
 }
 
 
