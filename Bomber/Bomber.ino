@@ -60,8 +60,9 @@ void setup () {
   gb.pickRandomSeed();
   gb.setFrameRate(21);
   gb.battery.show = true;
-  gb.titleScreen(F("Bomberman by Limited"), logo);
+  gb.display.fontSize = 1;
   gb.display.setFont(font3x5);
+  gb.titleScreen(F("Bomberman by Limited"), logo);
 }
 
 void loop() {
@@ -75,26 +76,36 @@ void loop() {
     }
 
     switch(gameState) {
-
-    case 0:
-      enemy.updateEnemy();
-      updateBombs();
-
-      renderGame();
-      player.renderPlayer();
-      enemy.renderEnemy();
-      renderBombs();
-     
-      break;
-    case 1: // Dead
-      deadMenu();
-      break;
+      case 0:
+        enemy.updateEnemy();
+        updateBombs();
+    
+        if (!debug)
+          maze.renderMaze();
+        player.renderPlayer();
+        enemy.renderEnemy();
+        renderBombs();
+        renderHud();
+        break;
+      case 1: // Dead
+        maze.renderEdges();
+        deadMenu();
+        renderHud();
+        break;
     }
   }
 }
 
 void deadMenu() {
-  gb.display.print("\nYou Died\nPress A to respawn");
+  gb.display.cursorX = gb.display.fontWidth+8;
+  gb.display.cursorY = 8;
+  gb.display.println("You Died");
+  gb.display.cursorX = gb.display.fontWidth+8;
+  gb.display.cursorY = 16;
+  gb.display.println("Press A to");
+  gb.display.cursorX = gb.display.fontWidth+8;
+  gb.display.cursorY = 24;
+  gb.display.println("respawn");
 }
 
 void debugRender() {
@@ -115,10 +126,7 @@ void debugRender() {
   gb.display.print("\nVersion: 2.0a");
 }
 
-void renderGame() {
-   if (!debug)
-    maze.renderMaze();
-    
+void renderHud() {
     gb.display.cursorX = LCDWIDTH-gb.display.fontWidth+1;
     gb.display.cursorY = 8;
     gb.display.print(player.deaths);
@@ -149,7 +157,7 @@ void handleInput() {
     else if (gb.buttons.repeat(BTN_DOWN, 1))
       player.moveDown();
 
-    if(gb.buttons.pressed(BTN_A)) {
+    if(gb.buttons.pressed(BTN_A) && !debug) {
       setBomb(player.x+(player.w/2),player.y+(player.h/2));
     }
   }
